@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>野球関連ブックマーク</title>
+  <style>
+    :root {
+      --bg: #f4f6f8;
+      --card: #ffffff;
+      --text: #1f2937;
+      --subtext: #6b7280;
+      --accent: #1d4ed8;
+      --border: #d1d5db;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                   "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 32px 20px 48px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+    }
+
+    .description {
+      margin: 0 0 28px;
+      color: var(--subtext);
+    }
+
+    section {
+      margin-bottom: 30px;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 20px;
+      border-left: 5px solid var(--accent);
+      padding-left: 10px;
+    }
+
+    .bookmark-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+    }
+
+    .bookmark {
+      display: block;
+      padding: 18px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      text-decoration: none;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+      transition: transform 0.15s ease, box-shadow 0.15s ease,
+                  border-color 0.15s ease;
+    }
+
+    .bookmark:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.10);
+    }
+
+    .bookmark-title {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .bookmark-url {
+      display: block;
+      color: var(--subtext);
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    footer {
+      margin-top: 36px;
+      color: var(--subtext);
+      font-size: 12px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>野球関連ブックマーク</h1>
+    <p class="description">各カードをクリックすると、新しいタブでサイトを開きます。</p>
+
+    <section>
+      <h2>NPBデータ・分析</h2>
+      <div class="bookmark-grid">
+        <a class="bookmark" href="https://tjstats.ca" target="_blank" rel="noopener noreferrer">
+          <span class="bookmark-title">TJStats</span>
+          <span class="bookmark-url">https://tjstats.ca</span>
+        </a>
+
+        <a class="bookmark" href="https://npbbasement.com" target="_blank" rel="noopener noreferrer">
+          <span class="bookmark-title">NPB Basement（ボーノさん）</span>
+          <span class="bookmark-url">https://npbbasement.com</span>
+        </a>
+
+        <a class="bookmark" href="https://npbpitchprofile-stjm6eueundydvjbqfxlbv.streamlit.app" target="_blank" rel="noopener noreferrer">
+          <span class="bookmark-title">NPB Pitch Profile（投手）</span>
+          <span class="bookmark-url">https://npbpitchprofile-stjm6eueundydvjbqfxlbv.streamlit.app</span>
+        </a>
+
+        <a class="bookmark" href="https://npbbatprofile-7knoehzqmixokxxxj2weeq.streamlit.app" target="_blank" rel="noopener noreferrer">
+          <span class="bookmark-title">NPB Bat Profile（打者）</span>
+          <span class="bookmark-url">https://npbbatprofile-7knoehzqmixokxxxj2weeq.streamlit.app</span>
+        </a>
+
+        <a class="bookmark" href="https://npbscholar.com" target="_blank" rel="noopener noreferrer">
+          <span class="bookmark-title">NPB Scholar</span>
+          <span class="bookmark-url">https://npbscholar.com</span>
+        </a>
+
+        <a class="bookmark" href="https://npbase.jp" target="_blank" rel="noopener noreferrer">
+          <span class="bookmark-title">NPBase</span>
+          <span class="bookmark-url">https://npbase.jp</span>
+        </a>
+      </div>
+    </section>
+
+    <section>
+      <h2>投手分析</h2>
+      <div class="bookmark-grid">
+        <a class="bookmark" href="https://moonomt.com/pitcher/frederic-tarnok/2025" target="_blank" rel="noopener noreferrer">
+          <span class="bookmark-title">お股ニキ 投手分析</span>
+          <span class="bookmark-url">https://moonomt.com/pitcher/frederic-tarnok/2025</span>
+        </a>
+      </div>
+    </section>
+
+    <section>
+      <h2>MLBデータ・映像</h2>
+      <div class="bookmark-grid">
+        <a class="bookmark" href="https://www.fangraphs.com/depthcharts.aspx?position=Team" target="_blank" rel="noopener noreferrer">
+          <span class="bookmark-title">FanGraphs Depth Charts</span>
+          <span class="bookmark-url">https://www.fangraphs.com/depthcharts.aspx?position=Team</span>
+        </a>
+
+        <a class="bookmark" href="https://www.mlb.com/ja/video" target="_blank" rel="noopener noreferrer">
+          <span class="bookmark-title">MLB Film Room</span>
+          <span class="bookmark-url">https://www.mlb.com/ja/video</span>
+        </a>
+
+        <a class="bookmark" href="https://baseballsavant.mlb.com/game-strategy-explorer" target="_blank" rel="noopener noreferrer">
+          <span class="bookmark-title">Baseball Savant Game Strategy Explorer</span>
+          <span class="bookmark-url">https://baseballsavant.mlb.com/game-strategy-explorer</span>
+        </a>
+      </div>
+    </section>
+
+    <footer>
+      野球関連ブックマーク集
+    </footer>
+  </main>
+</body>
+</html>
