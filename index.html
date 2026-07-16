@@ -1,420 +1,138 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#071b33">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="野球リンク">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <title>野球ブックマーク</title>
-
-  <style>
-    :root {
-      --navy: #071b33;
-      --navy2: #0b2b50;
-      --blue: #2878d0;
-      --sky: #64b5f6;
-      --white: #ffffff;
-      --ink: #122033;
-      --muted: #617083;
-      --line: rgba(255,255,255,.12);
-      --card: rgba(255,255,255,.96);
-      --shadow: 0 12px 30px rgba(0,0,0,.16);
-    }
-
-    * { box-sizing: border-box; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-                   "Hiragino Sans", "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif;
-      color: var(--ink);
-      background:
-        radial-gradient(circle at 15% 5%, rgba(100,181,246,.27), transparent 28%),
-        linear-gradient(145deg, var(--navy) 0%, var(--navy2) 48%, #0d3f70 100%);
-      background-attachment: fixed;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      opacity: .17;
-      background-image:
-        linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
-      background-size: 36px 36px;
-      mask-image: linear-gradient(to bottom, #000, transparent 68%);
-    }
-
-    .container {
-      position: relative;
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: max(24px, env(safe-area-inset-top)) 18px
-               max(40px, env(safe-area-inset-bottom));
-    }
-
-    header {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 14px 2px 24px;
-      color: var(--white);
-    }
-
-    .logo {
-      display: grid;
-      place-items: center;
-      width: 62px;
-      height: 62px;
-      flex: 0 0 62px;
-      border-radius: 19px;
-      font-size: 34px;
-      background: linear-gradient(145deg, #fff, #dbeeff);
-      box-shadow: 0 10px 28px rgba(0,0,0,.22);
-    }
-
-    h1 {
-      margin: 0;
-      font-size: clamp(27px, 6vw, 42px);
-      letter-spacing: .02em;
-    }
-
-    .subtitle {
-      margin: 5px 0 0;
-      color: rgba(255,255,255,.72);
-      font-size: 14px;
-    }
-
-    .quick-nav {
-      display: flex;
-      gap: 9px;
-      overflow-x: auto;
-      padding: 0 0 18px;
-      scrollbar-width: none;
-    }
-
-    .quick-nav::-webkit-scrollbar { display: none; }
-
-    .quick-nav a {
-      flex: 0 0 auto;
-      padding: 9px 14px;
-      border: 1px solid rgba(255,255,255,.2);
-      border-radius: 999px;
-      color: white;
-      text-decoration: none;
-      font-size: 13px;
-      background: rgba(255,255,255,.09);
-      backdrop-filter: blur(8px);
-    }
-
-    section {
-      margin: 0 0 27px;
-    }
-
-    .section-heading {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 0 0 12px;
-      color: white;
-    }
-
-    .section-heading h2 {
-      margin: 0;
-      font-size: 20px;
-    }
-
-    .section-heading span {
-      color: rgba(255,255,255,.58);
-      font-size: 12px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
-      gap: 13px;
-    }
-
-    .bookmark {
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      min-height: 94px;
-      padding: 16px;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,.55);
-      border-radius: 19px;
-      color: var(--ink);
-      text-decoration: none;
-      background: var(--card);
-      box-shadow: var(--shadow);
-      transition: transform .16s ease, box-shadow .16s ease;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .bookmark::after {
-      content: "›";
-      margin-left: auto;
-      color: #8da0b4;
-      font-size: 26px;
-      line-height: 1;
-    }
-
-    .bookmark:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 17px 36px rgba(0,0,0,.22);
-    }
-
-    .bookmark:active {
-      transform: scale(.985);
-    }
-
-    .site-icon {
-      display: grid;
-      place-items: center;
-      width: 52px;
-      height: 52px;
-      flex: 0 0 52px;
-      border-radius: 15px;
-      color: white;
-      font-size: 24px;
-      font-weight: 800;
-      background: linear-gradient(145deg, #1565c0, #42a5f5);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.34);
-    }
-
-    .mlb .site-icon {
-      background: linear-gradient(145deg, #b71c1c, #e53935);
-    }
-
-    .video .site-icon {
-      background: linear-gradient(145deg, #6a1b9a, #ab47bc);
-    }
-
-    .analysis .site-icon {
-      background: linear-gradient(145deg, #00695c, #26a69a);
-    }
-
-    .bookmark-text {
-      min-width: 0;
-    }
-
-    .bookmark-title {
-      display: block;
-      margin-bottom: 5px;
-      font-size: 16px;
-      font-weight: 750;
-      line-height: 1.3;
-    }
-
-    .bookmark-description {
-      display: block;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.45;
-    }
-
-    footer {
-      padding-top: 8px;
-      color: rgba(255,255,255,.53);
-      font-size: 12px;
-      text-align: center;
-    }
-
-    @media (max-width: 560px) {
-      .container { padding-left: 14px; padding-right: 14px; }
-      header { padding-top: 8px; }
-      .logo {
-        width: 54px;
-        height: 54px;
-        flex-basis: 54px;
-        border-radius: 17px;
-        font-size: 29px;
-      }
-      .grid { grid-template-columns: 1fr; }
-      .bookmark { min-height: 84px; padding: 14px; }
-      .site-icon {
-        width: 48px;
-        height: 48px;
-        flex-basis: 48px;
-      }
-    }
-
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --card: rgba(248,251,255,.97);
-      }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#071b33">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="野球リンク">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>野球ブックマーク</title>
+<style>
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Yu Gothic",sans-serif;color:#122033;
+background:radial-gradient(circle at 15% 5%,#23669b77,transparent 28%),linear-gradient(145deg,#071b33,#0b2b50 50%,#0d3f70);min-height:100vh}
+main{max-width:1080px;margin:auto;padding:max(24px,env(safe-area-inset-top)) 16px 42px}
+header{display:flex;gap:16px;align-items:center;color:white;padding:10px 2px 22px}
+header i{display:grid;place-items:center;width:60px;height:60px;border-radius:18px;background:white;font-style:normal;font-size:33px;box-shadow:0 10px 25px #0005}
+h1{margin:0;font-size:clamp(27px,6vw,42px)} header p{margin:5px 0 0;color:#ffffffb8;font-size:14px}
+nav{display:flex;gap:8px;overflow:auto;padding-bottom:18px} nav a{white-space:nowrap;color:white;text-decoration:none;padding:9px 14px;border-radius:99px;background:#ffffff16;border:1px solid #ffffff2b;font-size:13px}
+section{margin-bottom:28px} h2{color:white;font-size:20px;margin:0 0 12px} h2 em{font-style:normal;font-size:12px;color:#ffffff88;margin-left:10px;font-weight:400}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:13px}
+.card{display:flex;align-items:center;gap:14px;min-height:92px;padding:15px;border-radius:19px;background:#fffffff7;color:#122033;text-decoration:none;box-shadow:0 12px 30px #00000029;border:1px solid #ffffff99;transition:.15s}
+.card:hover{transform:translateY(-3px)} .card:active{transform:scale(.985)} .card b{margin-left:auto;color:#93a4b7;font-size:26px}
+.icon{display:grid;place-items:center;flex:0 0 50px;height:50px;border-radius:15px;color:white;font-weight:800;background:linear-gradient(145deg,#64748b,#94a3b8)}
+.card strong{display:block;font-size:16px;margin-bottom:5px} .card small{display:block;color:#617083;line-height:1.4}
+.favorite .icon{background:linear-gradient(145deg,#f59e0b,#f97316)} .mlb .icon{background:linear-gradient(145deg,#b91c1c,#ef4444)}
+.npb .icon{background:linear-gradient(145deg,#047857,#10b981)} .analysis .icon{background:linear-gradient(145deg,#6d28d9,#a855f7)}
+.favorite-card{background:linear-gradient(145deg,#fff,#fff7ed);border-color:#f59e0b66}
+footer{text-align:center;color:#ffffff88;font-size:12px}
+@media(max-width:640px){.grid{grid-template-columns:1fr} main{padding-left:14px;padding-right:14px} .card{min-height:84px}}
+</style>
 </head>
-
-<body>
-  <main class="container">
-    <header>
-      <div class="logo" aria-hidden="true">⚾</div>
-      <div>
-        <h1>野球ブックマーク</h1>
-        <p class="subtitle">NPB・MLBのデータ、分析、映像をまとめて開く</p>
-      </div>
-    </header>
-
-    <nav class="quick-nav" aria-label="ページ内メニュー">
-      <a href="#npb">NPB</a>
-      <a href="#mlb">MLB</a>
-      <a href="#pitching">投手分析</a>
-      <a href="#video">映像</a>
-    </nav>
-
-    <section id="npb">
-      <div class="section-heading">
-        <h2>NPBデータ・分析</h2>
-        <span>6 sites</span>
-      </div>
-
-      <div class="grid">
-        <a class="bookmark analysis" href="https://tjstats.ca" target="_blank" rel="noopener noreferrer">
-          <span class="site-icon">TJ</span>
-          <span class="bookmark-text">
-            <span class="bookmark-title">TJStats</span>
-            <span class="bookmark-description">NPBの成績・データを確認</span>
-          </span>
-        </a>
-
-        <a class="bookmark analysis" href="https://npbbasement.com" target="_blank" rel="noopener noreferrer">
-          <span class="site-icon">NB</span>
-          <span class="bookmark-text">
-            <span class="bookmark-title">NPB Basement</span>
-            <span class="bookmark-description">ボーノさんのNPBデータサイト</span>
-          </span>
-        </a>
-
-        <a class="bookmark analysis" href="https://npbpitchprofile-stjm6eueundydvjbqfxlbv.streamlit.app" target="_blank" rel="noopener noreferrer">
-          <span class="site-icon">P</span>
-          <span class="bookmark-text">
-            <span class="bookmark-title">NPB Pitch Profile</span>
-            <span class="bookmark-description">NPB投手の球種・投球プロフィール</span>
-          </span>
-        </a>
-
-        <a class="bookmark analysis" href="https://npbbatprofile-7knoehzqmixokxxxj2weeq.streamlit.app" target="_blank" rel="noopener noreferrer">
-          <span class="site-icon">B</span>
-          <span class="bookmark-text">
-            <span class="bookmark-title">NPB Bat Profile</span>
-            <span class="bookmark-description">NPB打者の打撃プロフィール</span>
-          </span>
-        </a>
-
-        <a class="bookmark analysis" href="https://npbscholar.com" target="_blank" rel="noopener noreferrer">
-          <span class="site-icon">NS</span>
-          <span class="bookmark-text">
-            <span class="bookmark-title">NPB Scholar</span>
-            <span class="bookmark-description">NPBの分析・データ検索</span>
-          </span>
-        </a>
-
-        <a class="bookmark analysis" href="https://npbase.jp" target="_blank" rel="noopener noreferrer">
-          <span class="site-icon">N</span>
-          <span class="bookmark-text">
-            <span class="bookmark-title">NPBase</span>
-            <span class="bookmark-description">NPBの記録・データベース</span>
-          </span>
-        </a>
-      </div>
+<body><main>
+<header><i>⚾</i><div><h1>野球ブックマーク</h1><p>NPB・MLBのデータ、分析、映像をまとめて開く</p></div></header>
+<nav><a href="#favorite">お気に入り</a><a href="#mlb">MLB</a><a href="#npb">NPB</a><a href="#analysis">分析</a></nav>
+<section id="favorite">
+      <h2>お気に入り<em>2 sites</em></h2>
+      <div class="grid"><a class="card favorite favorite-card" href="https://www.mlb.com/tv" target="_blank" rel="noopener noreferrer">
+        <span class="icon">TV</span>
+        <span><strong>MLB.TV</strong><small>MLB公式ライブ・見逃し配信</small></span>
+        <b>›</b></a>
+<a class="card favorite favorite-card" href="https://pacificleague.com/" target="_blank" rel="noopener noreferrer">
+        <span class="icon">PL</span>
+        <span><strong>パ・リーグ.com</strong><small>パ・リーグ公式動画・ニュース</small></span>
+        <b>›</b></a></div>
+    </section><section id="mlb">
+      <h2>MLB<em>11 sites</em></h2>
+      <div class="grid"><a class="card mlb " href="https://www.mlb.com/" target="_blank" rel="noopener noreferrer">
+        <span class="icon">MLB</span>
+        <span><strong>MLB.com</strong><small>MLB公式サイト</small></span>
+        <b>›</b></a>
+<a class="card mlb " href="https://www.mlb.com/tv" target="_blank" rel="noopener noreferrer">
+        <span class="icon">TV</span>
+        <span><strong>MLB.TV</strong><small>公式ライブ・見逃し配信</small></span>
+        <b>›</b></a>
+<a class="card mlb " href="https://www.fangraphs.com/" target="_blank" rel="noopener noreferrer">
+        <span class="icon">FG</span>
+        <span><strong>FanGraphs</strong><small>高度な指標・分析</small></span>
+        <b>›</b></a>
+<a class="card mlb " href="https://www.baseball-reference.com/" target="_blank" rel="noopener noreferrer">
+        <span class="icon">BR</span>
+        <span><strong>Baseball Reference</strong><small>歴代記録・選手成績</small></span>
+        <b>›</b></a>
+<a class="card mlb " href="https://tjstats.ca/" target="_blank" rel="noopener noreferrer">
+        <span class="icon">TJ</span>
+        <span><strong>TJStats</strong><small>MLBデータ・成績分析</small></span>
+        <b>›</b></a>
+<a class="card mlb " href="https://baseballsavant.mlb.com/" target="_blank" rel="noopener noreferrer">
+        <span class="icon">BS</span>
+        <span><strong>Baseball Savant</strong><small>Statcastデータ・検索</small></span>
+        <b>›</b></a>
+<a class="card mlb " href="https://baseballsavant.mlb.com/game-strategy-explorer" target="_blank" rel="noopener noreferrer">
+        <span class="icon">GS</span>
+        <span><strong>Game Strategy Explorer</strong><small>戦術分析</small></span>
+        <b>›</b></a>
+<a class="card mlb " href="https://www.fangraphs.com/depthcharts.aspx?position=Team" target="_blank" rel="noopener noreferrer">
+        <span class="icon">DC</span>
+        <span><strong>FanGraphs Depth Charts</strong><small>チーム別予測・デプスチャート</small></span>
+        <b>›</b></a>
+<a class="card mlb " href="https://legacy.baseballprospectus.com/compensation/cots/" target="_blank" rel="noopener noreferrer">
+        <span class="icon">C</span>
+        <span><strong>Cots Contracts</strong><small>契約・年俸情報</small></span>
+        <b>›</b></a>
+<a class="card mlb " href="https://www.mlbtraderumors.com/" target="_blank" rel="noopener noreferrer">
+        <span class="icon">TR</span>
+        <span><strong>MLB Trade Rumors</strong><small>移籍・契約情報</small></span>
+        <b>›</b></a>
+<a class="card mlb " href="https://www.mlb.com/ja/video" target="_blank" rel="noopener noreferrer">
+        <span class="icon">▶</span>
+        <span><strong>MLB Film Room</strong><small>MLB公式動画検索</small></span>
+        <b>›</b></a></div>
+    </section><section id="npb">
+      <h2>NPB<em>9 sites</em></h2>
+      <div class="grid"><a class="card npb " href="https://pacificleague.com/" target="_blank" rel="noopener noreferrer">
+        <span class="icon">PL</span>
+        <span><strong>パ・リーグ.com</strong><small>パ・リーグ公式動画・ニュース</small></span>
+        <b>›</b></a>
+<a class="card npb " href="https://npbbasement.com" target="_blank" rel="noopener noreferrer">
+        <span class="icon">NB</span>
+        <span><strong>NPB Basement</strong><small>ボーノさんのNPBデータサイト</small></span>
+        <b>›</b></a>
+<a class="card npb " href="https://npbpitchprofile-stjm6eueundydvjbqfxlbv.streamlit.app" target="_blank" rel="noopener noreferrer">
+        <span class="icon">P</span>
+        <span><strong>NPB Pitch Profile</strong><small>投手の球種・投球プロフィール</small></span>
+        <b>›</b></a>
+<a class="card npb " href="https://npbbatprofile-7knoehzqmixokxxxj2weeq.streamlit.app" target="_blank" rel="noopener noreferrer">
+        <span class="icon">B</span>
+        <span><strong>NPB Bat Profile</strong><small>打者の打撃プロフィール</small></span>
+        <b>›</b></a>
+<a class="card npb " href="https://npbscholar.com" target="_blank" rel="noopener noreferrer">
+        <span class="icon">NS</span>
+        <span><strong>NPB Scholar</strong><small>NPBの分析・データ検索</small></span>
+        <b>›</b></a>
+<a class="card npb " href="https://npbase.jp" target="_blank" rel="noopener noreferrer">
+        <span class="icon">N</span>
+        <span><strong>NPBase</strong><small>NPBの記録・データベース</small></span>
+        <b>›</b></a>
+<a class="card npb " href="https://baseball-freak.com/#google_vignette" target="_blank" rel="noopener noreferrer">
+        <span class="icon">BF</span>
+        <span><strong>Baseball Freak</strong><small>プロ野球の記録・データ</small></span>
+        <b>›</b></a>
+<a class="card npb " href="https://baseball-data.com/" target="_blank" rel="noopener noreferrer">
+        <span class="icon">BD</span>
+        <span><strong>Baseball Data</strong><small>プロ野球の成績・記録</small></span>
+        <b>›</b></a>
+<a class="card npb " href="https://sports.yahoo.co.jp/" target="_blank" rel="noopener noreferrer">
+        <span class="icon">Y!</span>
+        <span><strong>Yahoo!スポーツ</strong><small>速報・日程・ニュース</small></span>
+        <b>›</b></a></div>
+    </section><section id="analysis">
+      <h2>分析<em>1 sites</em></h2>
+      <div class="grid"><a class="card analysis " href="https://moonomt.com/pitcher/frederic-tarnok/2025" target="_blank" rel="noopener noreferrer">
+        <span class="icon">OM</span>
+        <span><strong>お股ニキ 投手分析</strong><small>投手プロフィール・球種分析</small></span>
+        <b>›</b></a></div>
     </section>
-
-    <section id="mlb">
-      <div class="section-heading">
-        <h2>MLBデータ・公式</h2>
-        <span>5 sites</span>
-      </div>
-
-      <div class="grid">
-        <a class="bookmark mlb" href="https://www.mlb.com/" target="_blank" rel="noopener noreferrer">
-          <span class="site-icon">MLB</span>
-          <span class="bookmark-text">
-            <span class="bookmark-title">MLB.com</span>
-            <span class="bookmark-description">MLB公式サイト</span>
-          </span>
-        </a>
-
-        <a class="bookmark mlb" href="https://www.fangraphs.com/" target="_blank" rel="noopener noreferrer">
-          <span class="site-icon">FG</span>
-          <span class="bookmark-text">
-            <span class="bookmark-title">FanGraphs</span>
-            <span class="bookmark-description">MLBの高度な指標・分析</span>
-          </span>
-        </a>
-
-        <a class="bookmark mlb" href="https://www.baseball-reference.com/" target="_blank" rel="noopener noreferrer">
-          <span class="site-icon">BR</span>
-          <span class="bookmark-text">
-            <span class="bookmark-title">Baseball Reference</span>
-            <span class="bookmark-description">MLBの歴代記録・選手成績</span>
-          </span>
-        </a>
-
-        <a class="bookmark mlb" href="https://www.fangraphs.com/depthcharts.aspx?position=Team" target="_blank" rel="noopener noreferrer">
-          <span class="site-icon">DC</span>
-          <span class="bookmark-text">
-            <span class="bookmark-title">FanGraphs Depth Charts</span>
-            <span class="bookmark-description">チーム別予測・デプスチャート</span>
-          </span>
-        </a>
-
-        <a class="bookmark mlb" href="https://baseballsavant.mlb.com/game-strategy-explorer" target="_blank" rel="noopener noreferrer">
-          <span class="site-icon">GS</span>
-          <span class="bookmark-text">
-            <span class="bookmark-title">Game Strategy Explorer</span>
-            <span class="bookmark-description">Baseball Savantの戦術分析</span>
-          </span>
-        </a>
-      </div>
-    </section>
-
-    <section id="pitching">
-      <div class="section-heading">
-        <h2>投手分析</h2>
-        <span>1 site</span>
-      </div>
-
-      <div class="grid">
-        <a class="bookmark analysis" href="https://moonomt.com/pitcher/frederic-tarnok/2025" target="_blank" rel="noopener noreferrer">
-          <span class="site-icon">OM</span>
-          <span class="bookmark-text">
-            <span class="bookmark-title">お股ニキ 投手分析</span>
-            <span class="bookmark-description">投手プロフィール・球種分析</span>
-          </span>
-        </a>
-      </div>
-    </section>
-
-    <section id="video">
-      <div class="section-heading">
-        <h2>映像</h2>
-        <span>1 site</span>
-      </div>
-
-      <div class="grid">
-        <a class="bookmark video" href="https://www.mlb.com/ja/video" target="_blank" rel="noopener noreferrer">
-          <span class="site-icon">▶</span>
-          <span class="bookmark-text">
-            <span class="bookmark-title">MLB Film Room</span>
-            <span class="bookmark-description">MLB公式の試合映像・動画検索</span>
-          </span>
-        </a>
-      </div>
-    </section>
-
-    <footer>ホーム画面から、野球データへすぐアクセス</footer>
-  </main>
-</body>
-</html>
+<footer>ホーム画面から、野球データへすぐアクセス</footer>
+</main></body></html>
