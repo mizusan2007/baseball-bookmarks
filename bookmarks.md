@@ -1,6 +1,6 @@
 # ブックマーク
 
-`app.js` に登録している21サイトの確認用一覧です。2026年7月16日時点で、既存サイトの追加・削除はありません。
+`app.js` に登録している22サイトの確認用一覧です。2026年8月30日時点の登録内容です。
 
 | サイト名 | URL | リーグ | 用途カテゴリ | 用途 | お気に入り |
 | --- | --- | --- | --- | --- | --- |
@@ -13,6 +13,7 @@
 | NPBase | https://npbase.jp | NPB | 選手・成績 | 試合速報、記録、選手・チームデータ | いいえ |
 | Baseball Freak | https://baseball-freak.com/ | NPB | 選手・成績 | 試合、選手情報、各種記録 | いいえ |
 | Baseball Data | https://baseball-data.com/ | NPB | 選手・成績 | 成績、記録、ランキング | いいえ |
+| Short-Stop | https://short-stop.jp/ | NPB | 選手・成績 | 打撃・投手成績ランキング、年度別データ | いいえ |
 | FanGraphs | https://www.fangraphs.com/ | MLB | 高度な分析 | セイバーメトリクス、選手成績、分析記事 | いいえ |
 | Baseball Savant | https://baseballsavant.mlb.com/ | MLB | 高度な分析 | Statcastデータ、検索、可視化 | いいえ |
 | TJStats | https://tjstats.ca/ | MLB | 高度な分析 | MLB・MiLBの高度なデータ分析 | いいえ |
@@ -33,4 +34,3 @@
 - お気に入り2件はファーストビューのヒーローカードとして表示する。
 - 通常表示ではお気に入りを重複させず、「見る」絞り込み時には3件をまとめて表示する。
 - 未承認の追加候補は [proposals.md](proposals.md) で管理し、本一覧には含めない。
-

@@ -110,6 +110,18 @@ const bookmarks = [
     size: "compact"
   },
   {
+    id: "short-stop",
+    name: "Short-Stop",
+    url: "https://short-stop.jp/",
+    league: "NPB",
+    category: "選手・成績",
+    description: "NPBの打撃・投手成績ランキングと年度別データ",
+    tags: ["成績", "ランキング", "OPS", "K-BB%"],
+    favorite: false,
+    icon: "SS",
+    size: "wide"
+  },
+  {
     id: "fangraphs",
     name: "FanGraphs",
     url: "https://www.fangraphs.com/",

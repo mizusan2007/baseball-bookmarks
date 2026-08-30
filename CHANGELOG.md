@@ -6,6 +6,14 @@
 
 - 追加候補は `proposals.md` で承認待ち。
 
+## 2026-08-30 - Short-Stop追加
+
+### サイト
+
+- NPBの打撃・投手成績ランキングと年度別データを確認できる `Short-Stop` を追加。
+- 「選手・成績」カテゴリ、NPBバッジで登録。
+- 登録サイト数を21件から22件へ更新。
+
 ## 2026-07-16 - Bento Dashboardへ全面再設計
 
 ### 追加
@@ -46,4 +54,3 @@
 
 - `README.md`、`bookmarks.md`、`CHANGELOG.md`、`ideas.md` を作成。
 - 既存GitHub Pagesの構成と登録サイトを記録。
-
