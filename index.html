@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#061526">
   <meta name="color-scheme" content="dark">
-  <meta name="description" content="NPB・MLBの配信、公式情報、成績、セイバーメトリクスへすぐにアクセスできる個人用野球ポータル。">
+  <meta name="description" content="NPB・MLBの配信、速報、選手検索、成績、セイバーメトリクスへ目的からアクセスできる個人用野球ポータル。">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="野球ポータル">
@@ -13,151 +13,96 @@
   <link rel="icon" type="image/png" href="apple-touch-icon.png">
   <link rel="stylesheet" href="styles.css">
   <script src="app.js" defer></script>
-  <title>野球ポータル | NPB・MLB Dashboard</title>
+  <title>野球ポータル | NPB・MLB</title>
 </head>
 <body>
   <a class="skip-link" href="#library">ブックマーク一覧へ移動</a>
 
-  <aside class="desktop-rail" aria-label="デスクトップナビゲーション">
-    <a class="rail-brand" href="#home" aria-label="野球ポータル ホーム">
-      <img src="apple-touch-icon.png" alt="" width="44" height="44">
-      <span><strong>BASEBALL</strong><small>PERSONAL DESK</small></span>
-    </a>
-    <nav class="rail-nav">
-      <button type="button" data-nav-action="home" aria-current="page"><span aria-hidden="true">⌂</span>ホーム</button>
-      <button type="button" data-nav-action="favorite"><span aria-hidden="true">★</span>お気に入り</button>
-      <button type="button" data-nav-action="MLB"><span class="nav-code" aria-hidden="true">M</span>MLB</button>
-      <button type="button" data-nav-action="NPB"><span class="nav-code" aria-hidden="true">N</span>NPB</button>
-      <button type="button" data-nav-action="search"><span aria-hidden="true">⌕</span>検索</button>
-    </nav>
-    <div class="rail-note">
-      <span class="live-dot" aria-hidden="true"></span>
-      <span>22 bookmarks<br><small>MLB / NPB / Analytics</small></span>
+  <header class="site-header" id="home">
+    <div class="header-inner">
+      <div class="brand-row">
+        <a class="brand" href="#home" aria-label="野球ポータル ホーム">
+          <img src="apple-touch-icon.png" alt="" width="42" height="42">
+          <span><strong>野球ポータル</strong><small>25 BOOKMARKS · NPB / MLB</small></span>
+        </a>
+        <span class="header-note">目的から、最短で。</span>
+      </div>
+
+      <form class="search-panel" id="siteSearchForm" role="search">
+        <label class="sr-only" for="siteSearch">サイトを検索</label>
+        <span class="search-symbol" aria-hidden="true">⌕</span>
+        <input id="siteSearch" type="search" autocomplete="off" enterkeyhint="search" placeholder="サイト名・選手検索・公示・Statcast…" aria-describedby="searchHint">
+        <kbd aria-hidden="true">/</kbd>
+        <span id="searchHint" class="sr-only">サイト名、用途、タグを対象にリアルタイムで検索します。Escapeキーで解除できます。</span>
+      </form>
+
+      <div class="league-switch" aria-label="リーグで絞り込む">
+        <button type="button" data-league="ALL" aria-pressed="true">すべて</button>
+        <button type="button" data-league="NPB" aria-pressed="false">NPB</button>
+        <button type="button" data-league="MLB" aria-pressed="false">MLB</button>
+      </div>
     </div>
-  </aside>
+  </header>
 
-  <div class="app-shell">
-    <main>
-      <section class="launchpad" id="home" aria-labelledby="page-title">
-        <header class="launch-header">
-          <p class="eyebrow">PERSONAL BASEBALL DASHBOARD</p>
-          <h1 id="page-title">あなたの野球、<br><span>ここから。</span></h1>
-          <p class="launch-copy">配信も、速報も、深い分析も。いつもの場所へ最短で。</p>
-        </header>
+  <main>
+    <section class="quick-start" aria-labelledby="quick-title">
+      <div class="section-heading">
+        <div><span class="eyebrow">QUICK START</span><h1 id="quick-title">すぐ開く</h1></div>
+        <p>お気に入りと、最近使ったサイト。</p>
+      </div>
+      <div class="favorite-links" id="favoriteLinks" aria-label="お気に入り"></div>
 
-        <form class="search-panel" id="siteSearchForm" role="search">
-          <label for="siteSearch">サイトを検索</label>
-          <div class="search-control">
-            <span class="search-symbol" aria-hidden="true">⌕</span>
-            <input id="siteSearch" type="search" autocomplete="off" enterkeyhint="search" placeholder="サイト名・用途で検索" aria-describedby="searchHint">
-            <kbd aria-hidden="true">/</kbd>
-          </div>
-          <span id="searchHint" class="sr-only">入力するとリアルタイムで絞り込みます。Escapeキーで解除できます。</span>
-        </form>
-
-        <div class="favorite-heroes" id="favoriteHeroes" aria-label="お気に入り"></div>
-
-        <section class="quick-zone" aria-labelledby="quick-title">
-          <div class="mini-heading">
-            <h2 id="quick-title">クイックアクセス</h2>
-            <span>目的から選ぶ</span>
-          </div>
-          <div class="quick-grid">
-            <a href="https://www.mlb.com/tv" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">▶</span><strong>試合を見る</strong><small>MLB.TV</small></a>
-            <button type="button" data-quick-category="試合・公式情報"><span aria-hidden="true">◉</span><strong>今日の試合</strong><small>速報・公式</small></button>
-            <button type="button" data-quick-category="選手・成績"><span aria-hidden="true">◎</span><strong>選手を調べる</strong><small>記録・成績</small></button>
-            <a href="https://baseballsavant.mlb.com/" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">⌁</span><strong>Statcast</strong><small>Savant</small></a>
-            <button type="button" data-quick-category="契約・移籍"><span aria-hidden="true">◇</span><strong>契約を調べる</strong><small>年俸・契約</small></button>
-            <a href="https://www.mlbtraderumors.com/" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">↗</span><strong>移籍情報</strong><small>MLBTR</small></a>
-          </div>
-        </section>
-
-        <div class="category-shortcuts" aria-label="主要カテゴリ">
-          <button type="button" data-quick-category="すべて">すべて</button>
-          <button type="button" data-quick-league="MLB">MLB</button>
-          <button type="button" data-quick-league="NPB">NPB</button>
-          <button type="button" data-quick-category="高度な分析">分析</button>
-          <a href="#library">一覧を見る <span aria-hidden="true">↓</span></a>
-        </div>
+      <section class="recent-section" id="recentSection" aria-labelledby="recent-title" hidden>
+        <div class="subheading"><h2 id="recent-title">最近開いたサイト</h2><button type="button" id="clearRecent">履歴を消す</button></div>
+        <div class="recent-grid" id="recentGrid"></div>
       </section>
+    </section>
 
-      <section class="library" id="library" aria-labelledby="library-title">
-        <header class="library-header">
-          <div>
-            <p class="eyebrow">BOOKMARK LIBRARY</p>
-            <h2 id="library-title">目的から探す</h2>
-          </div>
-          <p>リーグではなく、使いたい場面を起点に整理しています。</p>
-        </header>
+    <section class="task-section" aria-labelledby="task-title">
+      <div class="section-heading">
+        <div><span class="eyebrow">CHOOSE A TASK</span><h2 id="task-title">やりたいこと</h2></div>
+        <p>サイト名を知らなくても、目的から選べます。</p>
+      </div>
+      <div class="task-grid" id="categoryFilters"></div>
+    </section>
 
-        <div class="filter-dock" aria-label="ブックマークの絞り込み">
-          <div class="filter-row">
-            <span class="filter-label">カテゴリ</span>
-            <div class="chip-scroll" id="categoryFilters"></div>
-          </div>
-          <div class="filter-row filter-row--league">
-            <span class="filter-label">リーグ</span>
-            <div class="segmented" id="leagueFilters" aria-label="リーグで絞り込む">
-              <button type="button" data-league="ALL" aria-pressed="true">ALL</button>
-              <button type="button" data-league="MLB" aria-pressed="false">MLB</button>
-              <button type="button" data-league="NPB" aria-pressed="false">NPB</button>
-            </div>
-            <button class="clear-button" id="clearFilters" type="button">解除</button>
-          </div>
-        </div>
+    <section class="library" id="library" aria-labelledby="library-title">
+      <div class="library-top">
+        <div><span class="eyebrow">BOOKMARKS</span><h2 id="library-title">ブックマーク</h2></div>
+        <button class="clear-button" id="clearFilters" type="button">条件を解除</button>
+      </div>
+      <p class="result-status" id="resultStatus" aria-live="polite"></p>
+      <div id="bookmarkGroups"></div>
+      <div class="empty-state" id="emptyState" hidden>
+        <span aria-hidden="true">⌕</span><h3>該当するサイトがありません</h3>
+        <p>検索語または絞り込み条件を変えてください。</p><button type="button" data-empty-clear>条件を解除</button>
+      </div>
+    </section>
 
-        <p class="result-status" id="resultStatus" aria-live="polite"></p>
-
-        <section class="recent-section" id="recentSection" aria-labelledby="recent-title" hidden>
-          <div class="section-title-row">
-            <div>
-              <span class="section-index">RECENT</span>
-              <h3 id="recent-title">最近開いたサイト</h3>
-            </div>
-            <button type="button" id="clearRecent">履歴を消す</button>
-          </div>
-          <div class="recent-grid" id="recentGrid"></div>
-        </section>
-
-        <div id="bookmarkGroups"></div>
-
-        <div class="empty-state" id="emptyState" hidden>
-          <span aria-hidden="true">⌕</span>
-          <h3>該当するサイトがありません</h3>
-          <p>検索語または絞り込み条件を変えてください。</p>
-          <button type="button" data-empty-clear>条件を解除</button>
-        </div>
-      </section>
-
-      <noscript>
-        <section class="noscript-panel">
-          <h2>主要リンク</h2>
-          <p>JavaScriptが無効です。全22件は <a href="bookmarks.md">bookmarks.md</a> から確認できます。</p>
-          <div>
-            <a href="https://www.mlb.com/tv" target="_blank" rel="noopener noreferrer">MLB.TV ↗</a>
-            <a href="https://pacificleague.com/" target="_blank" rel="noopener noreferrer">パ・リーグ.com ↗</a>
-            <a href="https://www.mlb.com/" target="_blank" rel="noopener noreferrer">MLB.com ↗</a>
-            <a href="https://sports.yahoo.co.jp/" target="_blank" rel="noopener noreferrer">Yahoo!スポーツ ↗</a>
-            <a href="https://www.fangraphs.com/" target="_blank" rel="noopener noreferrer">FanGraphs ↗</a>
-          </div>
-        </section>
-      </noscript>
-
-      <footer>
+    <noscript>
+      <section class="noscript-panel">
+        <h2>主要リンク</h2>
+        <p>JavaScriptが無効です。全25件は <a href="bookmarks.md">bookmarks.md</a> から確認できます。</p>
         <div>
-          <strong>野球ポータル</strong>
-          <span>22 trusted destinations</span>
+          <a href="https://www.mlb.com/tv" target="_blank" rel="noopener noreferrer">MLB.TV ↗</a>
+          <a href="https://pacificleague.com/" target="_blank" rel="noopener noreferrer">パ・リーグ.com ↗</a>
+          <a href="https://npb.jp/bis/players/all/index.html" target="_blank" rel="noopener noreferrer">NPB選手検索 ↗</a>
+          <a href="https://npb.jp/announcement/roster/" target="_blank" rel="noopener noreferrer">NPB公示 ↗</a>
+          <a href="https://www.fangraphs.com/" target="_blank" rel="noopener noreferrer">FanGraphs ↗</a>
         </div>
-        <p>リンクは新しいタブで開きます。最近開いた履歴はこの端末内だけに保存されます。</p>
-      </footer>
-    </main>
-  </div>
+      </section>
+    </noscript>
+
+    <footer>
+      <div><strong>野球ポータル</strong><span>25 trusted destinations</span></div>
+      <p>リンクは新しいタブで開きます。最近開いた履歴はこの端末内だけに保存されます。</p>
+    </footer>
+  </main>
 
   <nav class="bottom-nav" aria-label="モバイルナビゲーション">
     <button type="button" data-nav-action="home" aria-current="page"><span aria-hidden="true">⌂</span><small>ホーム</small></button>
-    <button type="button" data-nav-action="favorite"><span aria-hidden="true">★</span><small>お気に入り</small></button>
-    <button type="button" data-nav-action="MLB"><span class="nav-code" aria-hidden="true">M</span><small>MLB</small></button>
     <button type="button" data-nav-action="NPB"><span class="nav-code" aria-hidden="true">N</span><small>NPB</small></button>
+    <button type="button" data-nav-action="MLB"><span class="nav-code" aria-hidden="true">M</span><small>MLB</small></button>
     <button type="button" data-nav-action="search"><span aria-hidden="true">⌕</span><small>検索</small></button>
   </nav>
 </body>
